@@ -1,0 +1,35 @@
+{
+  "name": "flavors",
+  "version": "1.0.0",
+  "description": "Application to generate cuisines based on different criteria",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack serve --open --config webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fflorez/flavors.git"
+  },
+  "author": "Felipe Florez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fflorez/flavors/issues"
+  },
+  "homepage": "https://github.com/fflorez/flavors#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.10.0"
+  },
+  "dependencies": {
+    "firebase": "^10.7.1"
+  }
+}
