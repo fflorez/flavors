@@ -9,5 +9,8 @@ export default class Cuisine {
         this.isSpicy = isSpicy;
         this.isSweet = isSweet;
         this.isUmani = isUmani;
+        this.isFavorite = false;
+        this.isTried = false;
+        this.isWishlist = false;
       }
 }

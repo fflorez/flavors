@@ -1,5 +1,5 @@
 
-import { getDatabase, ref, get, query, orderByChild, limitToLast, update, increment} from "firebase/database";
+import { getDatabase, ref, get, query, orderByChild, limitToLast, set, increment} from "firebase/database";
 import { getFirestore, doc, updateDoc, deleteField, setDoc, getDoc } from "firebase/firestore";
 import Cuisine from "../models/Cuisine";
 
@@ -26,21 +26,80 @@ export default class DatabaseService {
 
       // Get the list of available cuisines
       async getCuisines(){
-        const cuisineList = [];
+        const cuisines = {};
+        const salty = [];
+        const sour = [];
+        const spicy = [];
+        const sweet = [];
+        const umani = [];
+        const asia = [];
+        const africa = [];
+        const nortAmerica = [];
+        const soutAmerica = [];
+        const europe = [];
+        const australia = [];
+
         const cuisinesRef = ref(this._realtimeDatabase, 'cuisines')
+        
         await get(cuisinesRef).then((snapshot) => {
             if (snapshot.exists()) {
                 snapshot.forEach((child) => {
                     let data = child.val()
-                    cuisineList.push(new Cuisine(child.key, data.country, 
+
+                    cuisines[child.key] = new Cuisine(child.key, data.country, 
                         data.continent, data.description, data.isSalty, data.isSour, data.isSpicy, 
-                        data.isSweet, data.isUmani))
+                        data.isSweet, data.isUmani);
+
+                      if(data.isSalty){
+                        salty.push(child.key)
+                      }
+
+                      if(data.isSour){
+                        sour.push(child.key)
+                      }
+
+                      if(data.isSpicy){
+                        spicy.push(child.key)
+                      }
+
+                      if(data.isSweet){
+                        sweet.push(child.key)
+                      }
+
+                      if(data.isUmani){
+                        umani.push(child.key)
+                      }
+
+                      if(data.continent === 'Asia'){
+                        asia.push(child.key)
+                      }
+
+                      if(data.continent === 'Africa'){
+                        africa.push(child.key)
+                      }
+
+                      if(data.continent === 'North America'){
+                        nortAmerica.push(child.key)
+                      }
+
+                      if(data.continent === 'South America'){
+                        soutAmerica.push(child.key)
+                      }
+                      
+                      if(data.continent === 'Europe'){
+                        europe.push(child.key)
+                      }
+
+                      if(data.continent === 'Australia'){
+                        australia.push(child.key)
+                      }
+
                 })                
             } else {
               console.log("No cuisine data available");
             }
           });
-          return cuisineList;
+          return [cuisines, salty, sour, spicy, sweet, umani, asia, africa, nortAmerica, soutAmerica, europe, australia];
       }
 
       //Get the top 10 most favorite cuisines
@@ -59,6 +118,12 @@ export default class DatabaseService {
         
       }
 
+      // Update the global cuisine favorite count
+      async updateFavoriteCount(cuisineId, amount){
+        await set(ref(this._realtimeDatabase, `favorites/${cuisineId}`), {count:increment(amount)});        
+      }
+   
+
       // Get the top 10 most tried cuisines
       async getTopTried(){
         let topTriedList = []
@@ -75,6 +140,12 @@ export default class DatabaseService {
         
       }
 
+      // Update the global cuisine favorite count
+      async updateTriedCount(cuisineId, amount){
+        await set(ref(this._realtimeDatabase, `tried/${cuisineId}`), {count:increment(amount)});        
+      }
+
+
       // Get the top 10 most wishlisted cuisines
       async getTopWishlist(){
         let topWishlistList = []
@@ -89,6 +160,11 @@ export default class DatabaseService {
 
         return topWishlistList;
         
+      }
+
+      // Update the global cuisine favorite count
+      async updateWishlistCount(cuisineId, amount){
+        await set(ref(this._realtimeDatabase, `wishlist/${cuisineId}`), {count:increment(amount)});        
       }
 
       // Firestore Methods
