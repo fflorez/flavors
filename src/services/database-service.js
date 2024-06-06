@@ -27,17 +27,21 @@ export default class DatabaseService {
       // Get the list of available cuisines
       async getCuisines(){
         const cuisines = {};
-        const salty = [];
-        const sour = [];
-        const spicy = [];
-        const sweet = [];
-        const umani = [];
-        const asia = [];
-        const africa = [];
-        const nortAmerica = [];
-        const soutAmerica = [];
-        const europe = [];
-        const australia = [];
+
+        flavors = {};
+        flavors['salty'] = [];
+        flavors['sour'] = [];
+        flavors['spicy'] = [];
+        flavors['sweet'] = [];
+        flavors['umani'] = [];
+
+        continents = {};
+        continents['asia'] = [];
+        continents['africa'] = [];
+        continents['northAmerica'] = [];
+        continents['southAmerica'] = [];
+        continents['europe'] = [];
+        continents['australia'] = [];
 
         const cuisinesRef = ref(this._realtimeDatabase, 'cuisines')
         
@@ -51,47 +55,47 @@ export default class DatabaseService {
                         data.isSweet, data.isUmani);
 
                       if(data.isSalty){
-                        salty.push(child.key)
+                        flavors['salty'].push(child.key)
                       }
 
                       if(data.isSour){
-                        sour.push(child.key)
+                        flavors['sour'].push(child.key)
                       }
 
                       if(data.isSpicy){
-                        spicy.push(child.key)
+                        flavors['spicy'].push(child.key)
                       }
 
                       if(data.isSweet){
-                        sweet.push(child.key)
+                        flavors['sweet'].push(child.key)
                       }
 
                       if(data.isUmani){
-                        umani.push(child.key)
+                        flavors['umani'].push(child.key)
                       }
 
                       if(data.continent === 'Asia'){
-                        asia.push(child.key)
+                        continents['asia'].push(child.key)
                       }
 
                       if(data.continent === 'Africa'){
-                        africa.push(child.key)
+                        continents['africa'].push(child.key)
                       }
 
                       if(data.continent === 'North America'){
-                        nortAmerica.push(child.key)
+                        continents['northAmerica'].push(child.key)
                       }
 
                       if(data.continent === 'South America'){
-                        soutAmerica.push(child.key)
+                        continents['southAmerica'].push(child.key)
                       }
                       
                       if(data.continent === 'Europe'){
-                        europe.push(child.key)
+                        continents['europe'].push(child.key)
                       }
 
                       if(data.continent === 'Australia'){
-                        australia.push(child.key)
+                        continents['australia'].push(child.key)
                       }
 
                 })                
@@ -99,7 +103,9 @@ export default class DatabaseService {
               console.log("No cuisine data available");
             }
           });
-          return [cuisines, salty, sour, spicy, sweet, umani, asia, africa, nortAmerica, soutAmerica, europe, australia];
+
+
+          return [cuisines, flavors, continents];
       }
 
       //Get the top 10 most favorite cuisines
