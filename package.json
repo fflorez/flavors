@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "description": "Application to generate cuisines based on different criteria",
   "main": "index.js",
+  "jest": {
+    "modulePaths": ["src/"],
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
   "scripts": {
-    "test": "jest",
-    "build": "jest && webpack --config webpack.prod.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --silent=false",
+    "build": "webpack --config webpack.prod.js",
     "dev": "webpack serve --open --config webpack.dev.js"
   },
   "repository": {
@@ -19,6 +25,8 @@
   },
   "homepage": "https://github.com/fflorez/flavors#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.24.7",
+    "babel-jest": "^29.7.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
