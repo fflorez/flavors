@@ -23,6 +23,8 @@ const appCheck = initializeAppCheck(firebaseApp, {
 const databeseService = new DatabaseService(firebaseApp);
 databeseService.setNodeReferences();
 
+
+
 /*
 const [cuisines, salty, sour, spicy, sweet, umani, asia, 
     africa, nortAmerica, soutAmerica, europe, australia] = await databeseService.getCuisines();

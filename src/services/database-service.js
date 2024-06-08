@@ -1,6 +1,6 @@
 
 import { getDatabase, ref, get, query, orderByChild, limitToLast, set, increment} from "firebase/database";
-import { getFirestore, doc, updateDoc, deleteField, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, updateDoc, deleteField, setDoc, getDoc } from "firebase/firestore/lite";
 import Cuisine from "../models/Cuisine";
 
 export default class DatabaseService {
@@ -50,7 +50,7 @@ export default class DatabaseService {
                 snapshot.forEach((child) => {
                     let data = child.val()
 
-                    cuisines[child.key] = new Cuisine(child.key, data.country, 
+                    cuisines[child.key] = new Cuisine(child.key, data.country,  
                         data.continent, data.description, data.isSalty, data.isSour, data.isSpicy, 
                         data.isSweet, data.isUmani);
 

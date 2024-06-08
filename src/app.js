@@ -15,48 +15,56 @@ export default class App {
 
     setFavorites(favorites){
         this.favorites = favorites;
-        favorites.forEach((cuisineId) => this.cuisines[cuisineId].isFavorite = true);
+        favorites.forEach((countryCode) => this.cuisines[countryCode].isFavorite = true);
     }
 
     setTried(tried){
         this.tried = tried;
-        tried.forEach((cuisineId) => this.cuisines[cuisineId].isTried = true);
+        tried.forEach((countryCode) => this.cuisines[countryCode].isTried = true);
     }
 
     setWishlist(wishlist){
         this.wishlist = wishlist;
-        wishlist.forEach((cuisineId) => this.cuisines[cuisineId].isWishlist = true);
+        wishlist.forEach((countryCode) => this.cuisines[countryCode].isWishlist = true);
     }
 
-    addFavorite(cuisineId){
-        this.favorites.push(cuisineId);
-        this.cuisines[cuisineId].isFavorite = true;
+    addFavorite(countryCode){
+        this.favorites.push(countryCode);
+        this.cuisines[countryCode].isFavorite = true;
     }
 
-    removeFavorite(cuisineId){
-        const index = this.favorites.indexOf(cuisineId);
-        this.favorites.splice(index, index);
+    removeFavorite(countryCode){
+        this.favorites = this.favorites.filter((item) => {
+            return item !== countryCode
+        });
+        this.cuisines[countryCode].isFavorite = false;
     }
 
 
-    addTried(cuisineId){
-        this.tried.push(cuisineId);
-        this.cuisines[cuisineId].isTried = true;
+    addTried(countryCode){
+        this.tried.push(countryCode);
+        this.cuisines[countryCode].isTried = true;
     }
 
-    removeTried(cuisineId){
-        const index = this.tried.indexOf(cuisineId);
-        this.tried.splice(index, index);
+    removeTried(countryCode){
+        this.tried = this.tried.filter((item) => {
+            return item !== countryCode
+        });
+
+        this.cuisines[countryCode].isTried = false;
     }
 
-    addWishlist(cuisineId){
-        this.wishlist.push(cuisineId);
-        this.cuisines[cuisineId].isWishlist = true;
+    addWishlist(countryCode){
+        this.wishlist.push(countryCode);
+        this.cuisines[countryCode].isWishlist = true;
     }
 
-    removeWishlist(cuisineId){
-        const index = this.wishlist.indexOf(cuisineId);
-        this.wishlist.splice(index, index);
+    removeWishlist(countryCode){
+        this.wishlist = this.wishlist.filter((item) => {
+            return item !== countryCode
+        });
+
+        this.cuisines[countryCode].isWishlist = false;
     }
 
     setAvailableCuisines(strategy){
@@ -127,7 +135,10 @@ export default class App {
         if(this.remaningCount >= 2){
             const index = Math.floor(Math.random() * this.remaningCount);
             cuisine = this.availableCuisines[index];
-            this.availableCuisines.splice(index, index);
+            this.availableCuisines = this.availableCuisines.filter((item) => {
+                return  item !== cuisine
+            });
+            this.remaningCount = this.availableCuisines.length;
 
         }else if(this.remaningCount == 1){
             cuisine = this.availableCuisines[0];

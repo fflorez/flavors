@@ -3,43 +3,45 @@ import App from '../app';
 
 let app;
 
-const allCuisines = ['111111', '121111', '222222', '232222', '333333', '343333', '444444', '454444', '555555', '515555', '666666'];
-const favorites = ['111111', '121111'];
-const wishlist = ['222222', '232222'];
-const tried = ['333333', '343333'];
+const allCuisines = ['100', '120', '200', '230', '300', '340', '400', '450', '500', '510', '600'];
+const favorites = ['100', '120'];
+const wishlist = ['200', '230'];
+const tried = ['300', '340'];
 
-const asia = ['111111', '121111'];
-const africa = ['222222', '232222'];
-const northAmerica = ['333333', '343333'];
-const southAmerica = ['444444', '454444'];
-const europe = ['555555', '515555'];
-const australia = ['666666'];
+const asia = ['100', '120'];
+const africa = ['200', '230'];
+const northAmerica = ['300', '340'];
+const southAmerica = ['400', '450'];
+const europe = ['500', '510'];
+const australia = ['600'];
 
-const salty = ['111111', '121111', '515555', '666666const'];
-const sour = ['121111', '222222', '232222', '666666'];
-const spicy = ['232222', '333333', '343333', '666666'];
-const sweet = ['343333', '444444', '454444', '666666'];
-const umani = ['454444', '555555', '666666'];
+const salty = ['100', '120', '510', '600'];
+const sour = ['120', '200', '230', '600'];
+const spicy = ['230', '300', '340', '600'];
+const sweet = ['340', '400', '450', '600'];
+const umani = ['450', '500', '600'];
 
-const mostFavorite = ['111111', '121111', '515555', '666666'];
-const mostTried = ['232222', '333333', '343333', '666666'];
-const mostWishlist = ['454444', '555555', '666666'];
+const mostFavorite = ['100', '120', '510', '600'];
+const mostTried = ['230', '300', '340', '600'];
+const mostWishlist = ['450', '500', '600'];
+
+const remaining = ['120', '510', '600'];
 
 
 beforeEach(() => {
 //Id, Country, Continent, Description, isSalty, isSour, isSpicy, isSweet, isUmani
 const cuisines = {};
-cuisines['111111'] = new Cuisine('111111', 'Country1', 'spicy', 'Temp Description', true, false, false, false, false);
-cuisines['121111'] = new Cuisine('121111', 'Country12', 'spicy', 'Temp Description', true, true, false, false, false);
-cuisines['222222'] = new Cuisine('222222', 'Country2', 'Africa', 'Temp Description', false, true, false, false, false);
-cuisines['232222'] = new Cuisine('232222', 'Country23', 'Africa', 'Temp Description', false, true, true, false, false);
-cuisines['333333'] = new Cuisine('333333', 'Country3', 'North America', 'Temp Description', false, false, true, false, false);
-cuisines['343333'] = new Cuisine('343333', 'Country34', 'North America', 'Temp Description', false, false, true, true, false);
-cuisines['444444'] = new Cuisine('444444', 'Country4', 'South America', 'Temp Description', false, false, false, true, false);
-cuisines['454444'] = new Cuisine('454444', 'Country45', 'South America', 'Temp Description', false, false, false, true, true);
-cuisines['555555'] = new Cuisine('555555', 'Country5', 'Europe', 'Temp Description', false, false, false, false, true);
-cuisines['515555'] = new Cuisine('515555', 'Country51', 'Europe', 'Temp Description', true, false, false, false, true);
-cuisines['666666'] = new Cuisine('666666', 'Country6', 'Australia', 'Temp Description', true, true, true, true, true);
+cuisines['100'] = new Cuisine('100','Country1', 'Asia', 'Temp Description', true, false, false, false, false);
+cuisines['120'] = new Cuisine('120', 'Country12', 'Asia', 'Temp Description', true, true, false, false, false);
+cuisines['200'] = new Cuisine('200','Country2', 'Africa', 'Temp Description', false, true, false, false, false);
+cuisines['230'] = new Cuisine('230', 'Country23', 'Africa', 'Temp Description', false, true, true, false, false);
+cuisines['300'] = new Cuisine('300','Country3', 'North America', 'Temp Description', false, false, true, false, false);
+cuisines['340'] = new Cuisine('340', 'Country34', 'North America', 'Temp Description', false, false, true, true, false);
+cuisines['400'] = new Cuisine('400','Country4', 'South America', 'Temp Description', false, false, false, true, false);
+cuisines['450'] = new Cuisine('450', 'Country45', 'South America', 'Temp Description', false, false, false, true, true);
+cuisines['500'] = new Cuisine('Country5', 'Country5', 'Europe', 'Temp Description', false, false, false, false, true);
+cuisines['510'] = new Cuisine('510', 'Country51', 'Europe', 'Temp Description', true, false, false, false, true);
+cuisines['600'] = new Cuisine('600', 'Country6', 'Australia', 'Temp Description', true, true, true, true, true);
 
 const flavors = {};
 flavors['salty'] =  salty;
@@ -127,15 +129,87 @@ test('<ANOMALY>[setWishlist] - Set wishlist with empty list', () => {
     }
 });
 
-test('<HAPPY>[addFavorite] - Add a new cuisine to favorites', () => {});
-test('<HAPPY>[removeFavorite] - Remove a favorite from favorites with multiple favorites', () => {});
-test('<HAPPY>[removeFavorite] - Remove a favorite from favorites with one favorites', () => {});
-test('<HAPPY>[addTried] - Add a new cuisine to tried', () => {});
-test('<HAPPY>[removeTried] - Remove a tried cuisine from tried with multiple tried', () => {});
-test('<HAPPY>[removeTried] - Remove a tried cuisine from tried with one tried', () => {});
-test('<HAPPY>[addWishlist] - Add a new cuisine to tried', () => {});
-test('<HAPPY>[removeWishlist] - Remove a wishlist cuisine from wishlist with multiple wishlist', () => {});
-test('<HAPPY>[removeWishlist] - Remove a wishlist cuisine from wishlist with one wishlist', () => {});
+test('<HAPPY>[addFavorite] - Add a new cuisine to favorites', () => {
+    app.addFavorite('100');
+    expect(app.favorites).toEqual(['100']);
+    expect(app.cuisines['100'].isFavorite).toBe(true);
+});
+
+test('<HAPPY>[removeFavorite] - Remove a favorite from favorites with multiple favorites', () => {
+    app.setFavorites(mostFavorite);
+    expect(app.favorites.sort()).toEqual(mostFavorite.sort());
+    mostFavorite.forEach((item)=>{
+        expect(app.cuisines[item].isFavorite).toBe(true);
+    });
+
+    app.removeFavorite('100');
+    expect(app.favorites).toEqual(remaining.sort());
+    expect(app.cuisines['100'].isFavorite).toBe(false);
+
+
+});
+
+test('<HAPPY>[removeFavorite] - Remove a favorite from favorites with one favorites', () => {
+    app.addFavorite('100');
+    expect(app.favorites).toEqual(['100']);
+    app.removeFavorite('100');
+    expect(app.favorites).toEqual([]);
+    expect(app.cuisines['100'].isFavorite).toBe(false);
+});
+
+test('<HAPPY>[addTried] - Add a new cuisine to tried', () => {
+    app.addTried('100');
+    expect(app.tried).toEqual(['100']);
+    expect(app.cuisines['100'].isTried).toBe(true);
+});
+
+test('<HAPPY>[removeTried] - Remove a tried cuisine from tried with multiple tried', () => {
+    app.setTried(mostFavorite);
+    expect(app.tried.sort()).toEqual(mostFavorite.sort());
+    mostFavorite.forEach((item)=>{
+        expect(app.cuisines[item].isTried).toBe(true);
+    });
+
+    app.removeTried('100');
+    expect(app.tried).toEqual(remaining.sort());
+    expect(app.cuisines['100'].isTried).toBe(false);
+
+});
+
+test('<HAPPY>[removeTried] - Remove a tried cuisine from tried with one tried', () => {
+    app.addTried('100');
+    expect(app.tried).toEqual(['100']);
+    app.removeTried('100');
+    expect(app.tried).toEqual([]);
+    expect(app.cuisines['100'].isTried).toBe(false);
+
+});
+
+test('<HAPPY>[addWishlist] - Add a new cuisine to tried', () => {
+    app.addWishlist('100');
+    expect(app.wishlist).toEqual(['100']);
+    expect(app.cuisines['100'].isWishlist).toBe(true);
+});
+
+test('<HAPPY>[removeWishlist] - Remove a wishlist cuisine from wishlist with multiple wishlist', () => {
+    app.setWishlist(mostFavorite);
+    expect(app.wishlist.sort()).toEqual(mostFavorite.sort());
+    mostFavorite.forEach((item)=>{
+        expect(app.cuisines[item].isWishlist).toBe(true);
+    });
+
+    app.removeWishlist('100');
+    expect(app.wishlist).toEqual(remaining.sort());
+    expect(app.cuisines['100'].isWishlist).toBe(false);
+});
+
+test('<HAPPY>[removeWishlist] - Remove a wishlist cuisine from wishlist with one wishlist', () => {
+    app.addWishlist('100');
+    expect(app.wishlist).toEqual(['100']);
+    app.removeWishlist('100');
+    expect(app.wishlist).toEqual([]);
+    expect(app.cuisines['100'].isWishlist).toBe(false);
+});
 
 
 test('<ANOMALY>[setAvailableCuisines] - Set with invalid strategy', () => {
@@ -277,94 +351,242 @@ test('<ANOMALY>[generateCuisne] - Empty available cuisines', () => {
 });
 
 test('<HAPPY>[generateCuisne] - One available cuisine', () => {
-    app.addFavorite('111111');
+    app.addFavorite('100');
     app.setAvailableCuisines('favorites');
 
-    expect(app.availableCuisines).toEqual(['111111']);
+    expect(app.availableCuisines).toEqual(['100']);
     expect(app.remaningCount).toBe(1);
 
-    expect(app.generateCuisine()).toBe('111111');
-    expect(app.favorites).toEqual(['111111']);    
+    expect(app.generateCuisine()).toBe('100');
+    expect(app.availableCuisines).toEqual([]);
+    expect(app.favorites).toEqual(['100']);    
     expect(app.remaningCount).toBe(0);
 
 });
 
 test('<HAPPY>[generateCuisne] - Get with all', () => {
+    app.setAvailableCuisines('all');
+    expect(app.availableCuisines.sort()).toEqual(allCuisines.sort());
+    expect(app.remaningCount).toBe(allCuisines.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = allCuisines.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(allCuisines.length-1);    
 });
 
 test('<HAPPY>[generateCuisne] - Get with wishlist', () => {
+    app.setWishlist(wishlist);
+    app.setAvailableCuisines('wishlist');
+    expect(app.availableCuisines.sort()).toEqual(wishlist.sort());
+    expect(app.remaningCount).toBe(wishlist.length);
+
+    const generatedCuisine = app.generateCuisine();
+    const isIn = wishlist.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(wishlist.length-1);
+    expect(app.wishlist.length).toBe(wishlist.length);    
 
 });
 
 test('<HAPPY>[generateCuisne] - Get with favorites', () => {
+    app.setFavorites(favorites);
+    app.setAvailableCuisines('favorites');
+    expect(app.availableCuisines.sort()).toEqual(favorites.sort());
+    expect(app.remaningCount).toBe(favorites.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = favorites.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(favorites.length-1);
+    expect(app.favorites.length).toBe(favorites.length);   
 });
 
 test('<HAPPY>[generateCuisne] - Get with tried', () => {
+    app.setTried(tried);
+    app.setAvailableCuisines('tried');
+    expect(app.availableCuisines.sort()).toEqual(tried.sort());
+    expect(app.remaningCount).toBe(tried.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = tried.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(tried.length-1); 
+    expect(app.tried.length).toBe(tried.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with asia', () => {
+    app.setAvailableCuisines('asia');
+    expect(app.availableCuisines.sort()).toEqual(asia.sort());
+    expect(app.remaningCount).toBe(asia.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = asia.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(asia.length-1); 
+    expect(app.continents['asia'].length).toBe(asia.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with africa', () => {
+    app.setAvailableCuisines('africa');
+    expect(app.availableCuisines.sort()).toEqual(africa.sort());
+    expect(app.remaningCount).toBe(africa.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = africa.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(africa.length-1); 
+    expect(app.continents['africa'].length).toBe(africa.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with northAmerica', () => {
+    app.setAvailableCuisines('northAmerica');
+    expect(app.availableCuisines.sort()).toEqual(northAmerica.sort());
+    expect(app.remaningCount).toBe(northAmerica.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = northAmerica.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(northAmerica.length-1); 
+    expect(app.continents['northAmerica'].length).toBe(northAmerica.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with southAmerica', () => {
+    app.setAvailableCuisines('southAmerica');
+    expect(app.availableCuisines.sort()).toEqual(southAmerica.sort());
+    expect(app.remaningCount).toBe(southAmerica.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = southAmerica.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(southAmerica.length-1); 
+    expect(app.continents['southAmerica'].length).toBe(southAmerica.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with europe', () => {
+    app.setAvailableCuisines('europe');
+    expect(app.availableCuisines.sort()).toEqual(europe.sort());
+    expect(app.remaningCount).toBe(europe.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = europe.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(europe.length-1); 
+    expect(app.continents['europe'].length).toBe(europe.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with australia', () => {
+    app.setAvailableCuisines('australia');
+    expect(app.availableCuisines.sort()).toEqual(australia.sort());
+    expect(app.remaningCount).toBe(australia.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = australia.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(australia.length-1); 
+    expect(app.continents['australia'].length).toBe(australia.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with salty', () => {
+    app.setAvailableCuisines('salty');
+    expect(app.availableCuisines.sort()).toEqual(salty.sort());
+    expect(app.remaningCount).toBe(salty.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = salty.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(salty.length-1); 
+    expect(app.flavors['salty'].length).toBe(salty.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with sweet', () => {
+    app.setAvailableCuisines('sweet');
+    expect(app.availableCuisines.sort()).toEqual(sweet.sort());
+    expect(app.remaningCount).toBe(sweet.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = sweet.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(sweet.length-1); 
+    expect(app.flavors['sweet'].length).toBe(sweet.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with sour', () => {
+    app.setAvailableCuisines('sour');
+    expect(app.availableCuisines.sort()).toEqual(sour.sort());
+    expect(app.remaningCount).toBe(sour.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = sour.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(sour.length-1); 
+    expect(app.flavors['sour'].length).toBe(sour.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with spicy', () => {
+    app.setAvailableCuisines('spicy');
+    expect(app.availableCuisines.sort()).toEqual(spicy.sort());
+    expect(app.remaningCount).toBe(spicy.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = spicy.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(spicy.length-1); 
+    expect(app.flavors['spicy'].length).toBe(spicy.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with umani', () => {
+    app.setAvailableCuisines('umani');
+    expect(app.availableCuisines.sort()).toEqual(umani.sort());
+    expect(app.remaningCount).toBe(umani.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = umani.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(umani.length-1); 
+    expect(app.flavors['umani'].length).toBe(umani.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with mostFavorite', () => {
+    app.setAvailableCuisines('mostFavorite');
+    expect(app.availableCuisines.sort()).toEqual(mostFavorite.sort());
+    expect(app.remaningCount).toBe(mostFavorite.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = mostFavorite.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(mostFavorite.length-1); 
+    expect(app.mostFavorite.length).toBe(mostFavorite.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with mostTried', () => {
+    app.setAvailableCuisines('mostTried');
+    expect(app.availableCuisines.sort()).toEqual(mostTried.sort());
+    expect(app.remaningCount).toBe(mostTried.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = mostTried.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(mostTried.length-1); 
+    expect(app.mostTried.length).toBe(mostTried.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with mostWishlist', () => {
+    app.setAvailableCuisines('mostWishlist');
+    expect(app.availableCuisines.sort()).toEqual(mostWishlist.sort());
+    expect(app.remaningCount).toBe(mostWishlist.length);
 
+    const generatedCuisine = app.generateCuisine();
+    const isIn = mostWishlist.includes(generatedCuisine);
+    expect(isIn).toBe(true);
+    expect(app.remaningCount).toBe(mostWishlist.length-1); 
+    expect(app.mostWishlist.length).toBe(mostWishlist.length);
 });
 
 test('<HAPPY>[getCuisine] - Get with valid cuisine ID', () => {
-
+    expect(app.getCuisine('100')).toEqual(new Cuisine('100','Country1', 'Asia', 'Temp Description', true, false, false, false, false));
 });
 
 test('<ANOMALY>[getCuisine] - Get with invalid cuisine ID', () => {
-
+    expect(app.getCuisine('Country00')).toBe(undefined);
 });
