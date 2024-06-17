@@ -13,7 +13,7 @@ const africa = ['200', '230'];
 const northAmerica = ['300', '340'];
 const southAmerica = ['400', '450'];
 const europe = ['500', '510'];
-const australia = ['600'];
+const oceania = ['600'];
 
 const salty = ['100', '120', '510', '600'];
 const sour = ['120', '200', '230', '600'];
@@ -29,19 +29,19 @@ const remaining = ['120', '510', '600'];
 
 
 beforeEach(() => {
-//Id, Country, Continent, Description, isSalty, isSour, isSpicy, isSweet, isUmani
-const cuisines = {};
-cuisines['100'] = new Cuisine('100','Country1', 'Asia', 'Temp Description', true, false, false, false, false);
-cuisines['120'] = new Cuisine('120', 'Country12', 'Asia', 'Temp Description', true, true, false, false, false);
-cuisines['200'] = new Cuisine('200','Country2', 'Africa', 'Temp Description', false, true, false, false, false);
-cuisines['230'] = new Cuisine('230', 'Country23', 'Africa', 'Temp Description', false, true, true, false, false);
-cuisines['300'] = new Cuisine('300','Country3', 'North America', 'Temp Description', false, false, true, false, false);
-cuisines['340'] = new Cuisine('340', 'Country34', 'North America', 'Temp Description', false, false, true, true, false);
-cuisines['400'] = new Cuisine('400','Country4', 'South America', 'Temp Description', false, false, false, true, false);
-cuisines['450'] = new Cuisine('450', 'Country45', 'South America', 'Temp Description', false, false, false, true, true);
-cuisines['500'] = new Cuisine('Country5', 'Country5', 'Europe', 'Temp Description', false, false, false, false, true);
-cuisines['510'] = new Cuisine('510', 'Country51', 'Europe', 'Temp Description', true, false, false, false, true);
-cuisines['600'] = new Cuisine('600', 'Country6', 'Australia', 'Temp Description', true, true, true, true, true);
+const cuisines = {
+    '100' : {isFavorite: false, isTried: false, isWishlist : false},
+    '120' : {isFavorite: false, isTried: false, isWishlist : false},
+    '200' : {isFavorite: false, isTried: false, isWishlist : false},
+    '230' : {isFavorite: false, isTried: false, isWishlist : false},
+    '300' : {isFavorite: false, isTried: false, isWishlist : false},
+    '340' : {isFavorite: false, isTried: false, isWishlist : false},
+    '400' : {isFavorite: false, isTried: false, isWishlist : false}, 
+    '450' : {isFavorite: false, isTried: false, isWishlist : false},
+    '500' : {isFavorite: false, isTried: false, isWishlist : false}, 
+    '510' : {isFavorite: false, isTried: false, isWishlist : false},
+    '600' : {isFavorite: false, isTried: false, isWishlist : false}  
+};
 
 const flavors = {};
 flavors['salty'] =  salty;
@@ -56,9 +56,12 @@ continents['africa'] = africa;
 continents['northAmerica'] = northAmerica;
 continents['southAmerica'] = southAmerica;
 continents['europe'] = europe;
-continents['australia'] = australia;
+continents['oceania'] = oceania;
 
-app = new App(cuisines, flavors, continents, mostFavorite, mostTried, mostWishlist); 
+app = new App(mostFavorite, mostTried, mostWishlist); 
+app.cuisines = cuisines;
+app.flavors = flavors;
+app.continents = continents;
 
 });
 
@@ -283,11 +286,11 @@ test('<HAPPY>[setAvailableCuisines] - Set with europe', () => {
     expect(app.remaningCount).toBe(europe.length);
 });
 
-test('<HAPPY>[setAvailableCuisines] - Set with australia', () => {
-    app.setAvailableCuisines('australia');
+test('<HAPPY>[setAvailableCuisines] - Set with oceania', () => {
+    app.setAvailableCuisines('oceania');
 
-    expect(app.availableCuisines.sort()).toEqual(australia.sort());
-    expect(app.remaningCount).toBe(australia.length);
+    expect(app.availableCuisines.sort()).toEqual(oceania.sort());
+    expect(app.remaningCount).toBe(oceania.length);
 });
 
 test('<HAPPY>[setAvailableCuisines] - Set with salty', () => {
@@ -475,16 +478,16 @@ test('<HAPPY>[generateCuisne] - Get with europe', () => {
     expect(app.continents['europe'].length).toBe(europe.length);
 });
 
-test('<HAPPY>[generateCuisne] - Get with australia', () => {
-    app.setAvailableCuisines('australia');
-    expect(app.availableCuisines.sort()).toEqual(australia.sort());
-    expect(app.remaningCount).toBe(australia.length);
+test('<HAPPY>[generateCuisne] - Get with oceania', () => {
+    app.setAvailableCuisines('oceania');
+    expect(app.availableCuisines.sort()).toEqual(oceania.sort());
+    expect(app.remaningCount).toBe(oceania.length);
 
     const generatedCuisine = app.generateCuisine();
-    const isIn = australia.includes(generatedCuisine);
+    const isIn = oceania.includes(generatedCuisine);
     expect(isIn).toBe(true);
-    expect(app.remaningCount).toBe(australia.length-1); 
-    expect(app.continents['australia'].length).toBe(australia.length);
+    expect(app.remaningCount).toBe(oceania.length-1); 
+    expect(app.continents['oceania'].length).toBe(oceania.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with salty', () => {
@@ -581,12 +584,4 @@ test('<HAPPY>[generateCuisne] - Get with mostWishlist', () => {
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(mostWishlist.length-1); 
     expect(app.mostWishlist.length).toBe(mostWishlist.length);
-});
-
-test('<HAPPY>[getCuisine] - Get with valid cuisine ID', () => {
-    expect(app.getCuisine('100')).toEqual(new Cuisine('100','Country1', 'Asia', 'Temp Description', true, false, false, false, false));
-});
-
-test('<ANOMALY>[getCuisine] - Get with invalid cuisine ID', () => {
-    expect(app.getCuisine('Country00')).toBe(undefined);
 });

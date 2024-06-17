@@ -28,14 +28,14 @@ export default class DatabaseService {
       async getCuisines(){
         const cuisines = {};
 
-        flavors = {};
+        const flavors = {};
         flavors['salty'] = [];
         flavors['sour'] = [];
         flavors['spicy'] = [];
         flavors['sweet'] = [];
         flavors['umani'] = [];
 
-        continents = {};
+        const continents = {};
         continents['asia'] = [];
         continents['africa'] = [];
         continents['northAmerica'] = [];
