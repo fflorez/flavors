@@ -1,7 +1,5 @@
-
 import { getDatabase, ref, get, query, orderByChild, limitToLast, set, increment} from "firebase/database";
 import { getFirestore, doc, updateDoc, deleteField, setDoc, getDoc } from "firebase/firestore/lite";
-import Cuisine from "../models/Cuisine";
 
 export default class DatabaseService {
     constructor(firebaseApp) {
@@ -24,88 +22,42 @@ export default class DatabaseService {
         this._wishlistRefernce = ref(this._realtimeDatabase, 'wishlist')
       }
 
+      async getMetadata(){
+        const metadataRef = ref(this._realtimeDatabase, 'metadata/');
+        const metadata = {};
+
+        await get(metadataRef).then((snapshot) =>{
+          if(snapshot.exists()){
+            snapshot.forEach((child)=>{
+              metadata[child.key] = child.val();   
+            });                   
+          }else{
+            console.log("No metadata available");
+          }
+        });
+
+        return metadata;
+
+      }
+
       // Get the list of available cuisines
-      async getCuisines(){
-        const cuisines = {};
-
-        const flavors = {};
-        flavors['salty'] = [];
-        flavors['sour'] = [];
-        flavors['spicy'] = [];
-        flavors['sweet'] = [];
-        flavors['umani'] = [];
-
-        const continents = {};
-        continents['asia'] = [];
-        continents['africa'] = [];
-        continents['northAmerica'] = [];
-        continents['southAmerica'] = [];
-        continents['europe'] = [];
-        continents['australia'] = [];
-
-        const cuisinesRef = ref(this._realtimeDatabase, 'cuisines')
+      async getCuisine(cuisineId){
         
+        const cuisinesRef = ref(this._realtimeDatabase, 'cuisines/'+cuisineId);
+
+        const cuisine = {'id': cuisineId};
+       
         await get(cuisinesRef).then((snapshot) => {
             if (snapshot.exists()) {
                 snapshot.forEach((child) => {
-                    let data = child.val()
-
-                    cuisines[child.key] = new Cuisine(child.key, data.country,  
-                        data.continent, data.description, data.isSalty, data.isSour, data.isSpicy, 
-                        data.isSweet, data.isUmani);
-
-                      if(data.isSalty){
-                        flavors['salty'].push(child.key)
-                      }
-
-                      if(data.isSour){
-                        flavors['sour'].push(child.key)
-                      }
-
-                      if(data.isSpicy){
-                        flavors['spicy'].push(child.key)
-                      }
-
-                      if(data.isSweet){
-                        flavors['sweet'].push(child.key)
-                      }
-
-                      if(data.isUmani){
-                        flavors['umani'].push(child.key)
-                      }
-
-                      if(data.continent === 'Asia'){
-                        continents['asia'].push(child.key)
-                      }
-
-                      if(data.continent === 'Africa'){
-                        continents['africa'].push(child.key)
-                      }
-
-                      if(data.continent === 'North America'){
-                        continents['northAmerica'].push(child.key)
-                      }
-
-                      if(data.continent === 'South America'){
-                        continents['southAmerica'].push(child.key)
-                      }
-                      
-                      if(data.continent === 'Europe'){
-                        continents['europe'].push(child.key)
-                      }
-
-                      if(data.continent === 'Australia'){
-                        continents['australia'].push(child.key)
-                      }
-
-                })                
+                  cuisine[child.key] = child.val();                    
+                });                
             } else {
               console.log("No cuisine data available");
             }
           });
 
-
-          return [cuisines, flavors, continents];
+          return cuisine;
       }
 
       //Get the top 10 most favorite cuisines
