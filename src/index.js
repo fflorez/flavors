@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 import DatabaseService from './services/database-service';
-import LocalStorageService from './services/local-storage-service';
+import UtilityService from './services/utility-service';
+import App from './app';
 
 // Firebase Configuration
 const firebaseApp = initializeApp({
@@ -21,30 +22,15 @@ const appCheck = initializeAppCheck(firebaseApp, {
 });
 */
 
-let app;
-
 const databeseService = new DatabaseService(firebaseApp);
 databeseService.setNodeReferences();
 
-const metadata = databeseService.getMetadata();
+//const cuisines = await databeseService.getCuisines();
+const topFavorites = await databeseService.getTopFavorites();
+const topTried = await databeseService.getTopTried();
+const topWishlist = await databeseService.getTopWishlist();
 
-const localStorageService = new LocalStorageService();
+//const app = new App(cuisines, topFavorites, topTried, topWishlist);
+//app.init();
 
-/*
-
-
-
-const afghan = await databeseService.getCuisine('AFG');
-
-localStorageService.setCuisine(afghan);
-
-const afghan2 = localStorageService.getCuisine('AFG');
-
-console.log(afghan2);
-
-const wrongCuisine = localStorageService.getCuisine('BBL');
-
-console.log(Object.keys(wrongCuisine).length === 0)
-
-
-*/
+//console.log(app);

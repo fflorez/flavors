@@ -1,4 +1,4 @@
-import Cuisine from '../models/Cuisine';
+//import Cuisine from '../models/Cuisine';
 import App from '../app';
 
 let app;
@@ -30,17 +30,17 @@ const remaining = ['120', '510', '600'];
 
 beforeEach(() => {
 const cuisines = {
-    '100' : {isFavorite: false, isTried: false, isWishlist : false},
-    '120' : {isFavorite: false, isTried: false, isWishlist : false},
-    '200' : {isFavorite: false, isTried: false, isWishlist : false},
-    '230' : {isFavorite: false, isTried: false, isWishlist : false},
-    '300' : {isFavorite: false, isTried: false, isWishlist : false},
-    '340' : {isFavorite: false, isTried: false, isWishlist : false},
-    '400' : {isFavorite: false, isTried: false, isWishlist : false}, 
-    '450' : {isFavorite: false, isTried: false, isWishlist : false},
-    '500' : {isFavorite: false, isTried: false, isWishlist : false}, 
-    '510' : {isFavorite: false, isTried: false, isWishlist : false},
-    '600' : {isFavorite: false, isTried: false, isWishlist : false}  
+    '100' : {continent: 'Asia', country: 'Asia1', description: 'Description', isSalty: true, isSour: false, isSpicy: false, isSweet: false, isUmani: false},
+    '120' : {continent: 'Asia', country: 'Asia2', description: 'Description', isSalty: true, isSour: true, isSpicy: false, isSweet: false, isUmani: false},
+    '200' : {continent: 'Africa', country: 'Africa1', description: 'Description', isSalty: false, isSour: true, isSpicy: false, isSweet: false, isUmani: false},
+    '230' : {continent: 'Africa', country: 'Africa2', description: 'Description', isSalty: false, isSour: true, isSpicy: true, isSweet: false, isUmani: false},
+    '300' : {continent: 'North America', country: 'North America 1', description: 'Description', isSalty: false, isSour: false, isSpicy: true, isSweet: false, isUmani: false},
+    '340' : {continent: 'North America', country: 'North America 2', description: 'Description', isSalty: false, isSour: false, isSpicy: true, isSweet: true, isUmani: false},
+    '400' : {continent: 'South America', country: 'South America 1', description: 'Description', isSalty: false, isSour: false, isSpicy: false, isSweet: true, isUmani: false},
+    '450' : {continent: 'South America', country: 'South America 2', description: 'Description', isSalty: false, isSour: false, isSpicy: false, isSweet: true, isUmani: true},
+    '500' : {continent: 'Europe', country: 'Europe1', description: 'Description', isSalty: false, isSour: false, isSpicy: false, isSweet: false, isUmani: true},
+    '510' : {continent: 'Europe', country: 'Europe2', description: 'Description', isSalty: true, isSour: false, isSpicy: false, isSweet: false, isUmani: false},
+    '600' : {continent: 'Oceania', country: 'Oceania 1', description: 'Description', isSalty: true, isSour: true, isSpicy: true, isSweet: true, isUmani: true}
 };
 
 const flavors = {};
@@ -51,17 +51,18 @@ flavors['sweet'] = sweet;
 flavors['umani'] = umani;
 
 const continents = {};
-continents['asia'] = asia;
-continents['africa'] = africa;
-continents['northAmerica'] = northAmerica;
-continents['southAmerica'] = southAmerica;
-continents['europe'] = europe;
-continents['oceania'] = oceania;
+continents['Asia'] = asia;
+continents['Africa'] = africa;
+continents['North America'] = northAmerica;
+continents['South America'] = southAmerica;
+continents['Europe'] = europe;
+continents['Oceania'] = oceania;
 
-app = new App(mostFavorite, mostTried, mostWishlist); 
-app.cuisines = cuisines;
-app.flavors = flavors;
-app.continents = continents;
+app = new App(cuisines, mostFavorite, mostTried, mostWishlist); 
+app.init();
+//app.cuisines = cuisines;
+//app.flavors = flavors;
+//app.continents = continents;
 
 });
 
@@ -253,41 +254,41 @@ test('<HAPPY>[setAvailableCuisines] - Set with tried', () => {
     expect(app.remaningCount).toBe(tried.length);
 });
 test('<HAPPY>[setAvailableCuisines] - Set with asia', () => {
-    app.setAvailableCuisines('asia');
+    app.setAvailableCuisines('Asia');
 
     expect(app.availableCuisines.sort()).toEqual(asia.sort());
     expect(app.remaningCount).toBe(asia.length);
 });
 test('<HAPPY>[setAvailableCuisines] - Set with africa', () => {
-    app.setAvailableCuisines('africa');
+    app.setAvailableCuisines('Africa');
 
     expect(app.availableCuisines.sort()).toEqual(africa.sort());
     expect(app.remaningCount).toBe(africa.length);
 });
 
 test('<HAPPY>[setAvailableCuisines] - Set with northAmerica', () => {
-    app.setAvailableCuisines('northAmerica');
+    app.setAvailableCuisines('North America');
 
     expect(app.availableCuisines.sort()).toEqual(northAmerica.sort());
     expect(app.remaningCount).toBe(northAmerica.length);
 });
 
 test('<HAPPY>[setAvailableCuisines] - Set with southAmerica', () => {
-    app.setAvailableCuisines('southAmerica');
+    app.setAvailableCuisines('South America');
 
     expect(app.availableCuisines.sort()).toEqual(southAmerica.sort());
     expect(app.remaningCount).toBe(southAmerica.length);
 });
 
 test('<HAPPY>[setAvailableCuisines] - Set with europe', () => {
-    app.setAvailableCuisines('europe');
+    app.setAvailableCuisines('Europe');
 
     expect(app.availableCuisines.sort()).toEqual(europe.sort());
     expect(app.remaningCount).toBe(europe.length);
 });
 
 test('<HAPPY>[setAvailableCuisines] - Set with oceania', () => {
-    app.setAvailableCuisines('oceania');
+    app.setAvailableCuisines('Oceania');
 
     expect(app.availableCuisines.sort()).toEqual(oceania.sort());
     expect(app.remaningCount).toBe(oceania.length);
@@ -419,7 +420,7 @@ test('<HAPPY>[generateCuisne] - Get with tried', () => {
 });
 
 test('<HAPPY>[generateCuisne] - Get with asia', () => {
-    app.setAvailableCuisines('asia');
+    app.setAvailableCuisines('Asia');
     expect(app.availableCuisines.sort()).toEqual(asia.sort());
     expect(app.remaningCount).toBe(asia.length);
 
@@ -427,11 +428,11 @@ test('<HAPPY>[generateCuisne] - Get with asia', () => {
     const isIn = asia.includes(generatedCuisine);
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(asia.length-1); 
-    expect(app.continents['asia'].length).toBe(asia.length);
+    expect(app.continents['Asia'].length).toBe(asia.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with africa', () => {
-    app.setAvailableCuisines('africa');
+    app.setAvailableCuisines('Africa');
     expect(app.availableCuisines.sort()).toEqual(africa.sort());
     expect(app.remaningCount).toBe(africa.length);
 
@@ -439,11 +440,11 @@ test('<HAPPY>[generateCuisne] - Get with africa', () => {
     const isIn = africa.includes(generatedCuisine);
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(africa.length-1); 
-    expect(app.continents['africa'].length).toBe(africa.length);
+    expect(app.continents['Africa'].length).toBe(africa.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with northAmerica', () => {
-    app.setAvailableCuisines('northAmerica');
+    app.setAvailableCuisines('North America');
     expect(app.availableCuisines.sort()).toEqual(northAmerica.sort());
     expect(app.remaningCount).toBe(northAmerica.length);
 
@@ -451,11 +452,11 @@ test('<HAPPY>[generateCuisne] - Get with northAmerica', () => {
     const isIn = northAmerica.includes(generatedCuisine);
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(northAmerica.length-1); 
-    expect(app.continents['northAmerica'].length).toBe(northAmerica.length);
+    expect(app.continents['North America'].length).toBe(northAmerica.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with southAmerica', () => {
-    app.setAvailableCuisines('southAmerica');
+    app.setAvailableCuisines('South America');
     expect(app.availableCuisines.sort()).toEqual(southAmerica.sort());
     expect(app.remaningCount).toBe(southAmerica.length);
 
@@ -463,11 +464,11 @@ test('<HAPPY>[generateCuisne] - Get with southAmerica', () => {
     const isIn = southAmerica.includes(generatedCuisine);
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(southAmerica.length-1); 
-    expect(app.continents['southAmerica'].length).toBe(southAmerica.length);
+    expect(app.continents['South America'].length).toBe(southAmerica.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with europe', () => {
-    app.setAvailableCuisines('europe');
+    app.setAvailableCuisines('Europe');
     expect(app.availableCuisines.sort()).toEqual(europe.sort());
     expect(app.remaningCount).toBe(europe.length);
 
@@ -475,11 +476,11 @@ test('<HAPPY>[generateCuisne] - Get with europe', () => {
     const isIn = europe.includes(generatedCuisine);
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(europe.length-1); 
-    expect(app.continents['europe'].length).toBe(europe.length);
+    expect(app.continents['Europe'].length).toBe(europe.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with oceania', () => {
-    app.setAvailableCuisines('oceania');
+    app.setAvailableCuisines('Oceania');
     expect(app.availableCuisines.sort()).toEqual(oceania.sort());
     expect(app.remaningCount).toBe(oceania.length);
 
@@ -487,7 +488,7 @@ test('<HAPPY>[generateCuisne] - Get with oceania', () => {
     const isIn = oceania.includes(generatedCuisine);
     expect(isIn).toBe(true);
     expect(app.remaningCount).toBe(oceania.length-1); 
-    expect(app.continents['oceania'].length).toBe(oceania.length);
+    expect(app.continents['Oceania'].length).toBe(oceania.length);
 });
 
 test('<HAPPY>[generateCuisne] - Get with salty', () => {
